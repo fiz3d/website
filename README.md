@@ -1,2 +1,2 @@
-# fiz3d.github.io
+# fiz3d.org
 fiz3d.org
