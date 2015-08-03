@@ -6,6 +6,7 @@ provision: unprovision
 	chown root:root /etc/init/fiz3d-org.conf
 	chmod 644 /etc/init/fiz3d-org.conf
 	ln -s /lib/init/upstart-job /etc/init.d/fiz3d-org
+	service fiz3d-org start
 
 unprovision:
 	rm -f /etc/init/fiz3d-org.conf
