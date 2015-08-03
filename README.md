@@ -1,4 +1,4 @@
-# The fiz3d.org Website
+# The fiz3d.org website
 
 This repository holds everything that runs on the [fiz3d.org](fiz3d.org) website.
 
