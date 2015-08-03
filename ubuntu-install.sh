@@ -3,7 +3,7 @@
 sudo apt-get install git
 
 # Save current working directory.
-export PWD=$(pwd)
+export pwd=$(pwd)
 
 # Download and Go and install it to /root/go
 export TMPDIR="/tmp/fiz3d-org-install"
@@ -13,4 +13,4 @@ tar -xzf ./go1.4.2.linux-amd64.tar.gz -C /root
 
 # Cleanup and go back to the previous working directory.
 rm -rf $TMPDIR
-cd $PWD
+cd $pwd
