@@ -21,6 +21,12 @@ Below is a list of software used (some of which you will need installed):
 
 ## Deployment
 
+The simplest way to deploy is to use the `ubuntu-install.sh` script. This installs all relevant dependencies (git, Go, etc) and runs `make provision` for you:
+
+```
+wget -O - https://raw.github.com/fiz3d/website/master/ubuntu-install.sh | bash
+```
+
 The app itself runs with a full repository clone, and is fully responsible for building itself. In practice, this is pretty fast.
 
 Once any change is merged into `master`, the live site will pull those changes and trigger a rebuild / relaunch itself (disable this behavior with `-update=false`).
