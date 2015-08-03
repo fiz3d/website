@@ -1,16 +1,16 @@
 # The fiz3d.org website
 
-This repository holds everything that runs on the [fiz3d.org](fiz3d.org) website.
+This repository holds everything that runs on the [fiz3d.org](https://fiz3d.org) website.
 
 ## Dependencies
 
 Below is a list of software used (some of which you will need installed):
 
-- [Go](golang.org) is used to power the back-end.
-- [Bootstrap](getbootstrap.com) and [jQuery](jquery.com) power the front-end.
-- [Browserify](browserify.org) is used to package resources.
-- [Docker](www.docker.com) is used for quick and easy deployment.
-- [Travis CI](travis-ci.org) lets us auto-deploy any changes merged into this repository directly to the [live site](fiz3d.org).
+- [Go](https://golang.org) is used to power the back-end.
+- [Bootstrap](https://getbootstrap.com) and [jQuery](https://jquery.com) power the front-end.
+- [Browserify](https://browserify.org) is used to package resources.
+- [Docker](https://www.docker.com) is used for quick and easy deployment.
+- [Travis CI](https://travis-ci.org) lets us auto-deploy any changes merged into this repository directly to the [live site](https://fiz3d.org).
 - [Rego](https://sourcegraph.com/github.com/sqs/rego) automatically rebuilds the Go source code as you make changes.
 
 ## Development
