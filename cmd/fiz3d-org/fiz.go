@@ -27,8 +27,14 @@ var (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("%v %v\n", r.Method, r.URL)
 	fmt.Fprintf(w, "Hello world!")
+}
+
+func logHandler(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%v %v\n", r.Method, r.URL)
+		h.ServeHTTP(w, r)
+	})
 }
 
 func checkForUpdates() {
@@ -73,10 +79,10 @@ func main() {
 	}
 
 	// Static file hosting
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
+	http.Handle("/static/", http.StripPrefix("/static/", logHandler(http.FileServer(http.Dir("static/")))))
 
 	// App handler.
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", logHandler(handler))
 
 	// Start HTTPS server:
 	if *tlsAddr != "" {
