@@ -26,7 +26,7 @@ var (
 	staticDir       = "static/"  // Directory to serve for static files.
 
 	errorTemplate = "error"      // Template to use for errors.
-	templateGlob  = "**/*.tmpl"  // Glob to match all template files.
+	templateExt   = ".tmpl"      // Filepath extension of template files.
 	templateDir   = "templates/" // Relative directory that templates reside in.
 
 	src = &GitUpdater{
@@ -38,10 +38,22 @@ var (
 )
 
 func reloadTemplates() error {
-	matches, err := filepath.Glob(templateGlob)
+	// Recursively match all filepaths with the template extension.
+	var matches []string
+	err := filepath.Walk(templateDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if filepath.Ext(path) == templateExt {
+			matches = append(matches, path)
+		}
+		return nil
+	})
 	if err != nil {
 		return err
 	}
+
+	// Load the templates with proper names.
 	tmpls = template.New("")
 	for _, m := range matches {
 		name := strings.TrimPrefix(m, templateDir)
