@@ -10,7 +10,6 @@ clean:
 deps:
 	npm install -g browserify
 	npm install -g watchify
-	npm install --save-dev browserify-css
 
 provision: unprovision
 	cp upstart.conf /etc/init/fiz3d-org.conf
