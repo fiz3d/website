@@ -1,15 +1,19 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -71,7 +75,9 @@ func reloadTemplates() error {
 
 type TemplateData struct {
 	Request *http.Request
-	Error   string
+
+	Error string // Error in serving the request, if any.
+	Stack string // Stack trace, if any.
 }
 
 func handler(w http.ResponseWriter, r *http.Request) error {
@@ -79,10 +85,6 @@ func handler(w http.ResponseWriter, r *http.Request) error {
 		if err := reloadTemplates(); err != nil {
 			return err
 		}
-	}
-
-	var data = &TemplateData{
-		Request: r,
 	}
 
 	// Determine template name.
@@ -94,6 +96,7 @@ func handler(w http.ResponseWriter, r *http.Request) error {
 			tmplName = path.Join(tmplName, "index")
 		}
 	}
+	tmplName = tmplName + ".tmpl"
 
 	// Find the requested page.
 	root := tmpls.Lookup(tmplName)
@@ -103,8 +106,17 @@ func handler(w http.ResponseWriter, r *http.Request) error {
 		return fmt.Errorf("%v - %v", http.StatusNotFound, http.StatusText(http.StatusNotFound))
 	}
 
-	// Execute the requested template page.
-	return root.Execute(w, data)
+	// Execute the requested template page. Buffer the output so that we can
+	// handle template errors without corrupting the response.
+	buf := bytes.NewBuffer(nil)
+	err := root.Execute(buf, &TemplateData{
+		Request: r,
+	})
+	if err != nil {
+		return err
+	}
+	_, err = buf.WriteTo(w)
+	return err
 }
 
 func logHandler(h http.Handler) http.Handler {
@@ -114,23 +126,56 @@ func logHandler(h http.Handler) http.Handler {
 	})
 }
 
+var stackTrace = &struct {
+	sync.Mutex
+	buf []byte
+}{
+	buf: make([]byte, 8192),
+}
+
+func stack() string {
+	stackTrace.Lock()
+	defer stackTrace.Unlock()
+
+read:
+	n := runtime.Stack(stackTrace.buf, false)
+	if n > len(stackTrace.buf) {
+		stackTrace.buf = make([]byte, len(stackTrace.buf)*2)
+		goto read
+	}
+	return string(stackTrace.buf)
+}
+
 func errorHandler(h func(w http.ResponseWriter, r *http.Request) error) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := h(w, r)
-		if err == nil {
-			log.Printf("%v %v\n", r.Method, r.URL)
-			return
-		}
+	render := func(w http.ResponseWriter, r *http.Request, err, stack string) {
 		log.Printf("[error] %v %v - %v\n", r.Method, r.URL, err)
 
 		// Render the error template.
 		data := &TemplateData{
 			Request: r,
-			Error:   err.Error(),
+			Error:   err,
+			Stack:   stack,
 		}
 		if err := tmpls.ExecuteTemplate(w, errorTemplate, data); err != nil {
 			panic(err)
 		}
+	}
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Recover from panics to render them as an error.
+		defer func() {
+			if err := recover(); err != nil {
+				render(w, r, fmt.Sprintf("%v", err), stack())
+			}
+		}()
+
+		// Execute the handler for the request, render the error if any.
+		err := h(w, r)
+		if err == nil {
+			log.Printf("%v %v\n", r.Method, r.URL)
+			return
+		}
+		render(w, r, err.Error(), "")
 	})
 }
 
