@@ -58,7 +58,6 @@ func reloadTemplates() error {
 	tmpls = template.New("")
 	for _, m := range matches {
 		name := strings.TrimPrefix(m, templateDir)
-		name = strings.TrimSuffix(name, filepath.Ext(name))
 		if _, err := tmpls.New(name).Parse(m); err != nil {
 			return err
 		}
