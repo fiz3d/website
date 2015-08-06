@@ -196,7 +196,7 @@ func checkForUpdates() {
 		return
 	}
 	if updated {
-		log.Println("Updated source code. Exiting server..")
+		log.Println("Update available. Exiting server..")
 		os.Exit(0)
 	}
 	log.Println("checked for updates (none available)")
