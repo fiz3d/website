@@ -27,6 +27,7 @@ var (
 
 	errorTemplate = "error"      // Template to use for errors.
 	templateExt   = ".tmpl"      // Filepath extension of template files.
+	templateIncl  = ".incl"      // Filepath extension of template includes.
 	templateDir   = "templates/" // Relative directory that templates reside in.
 
 	src = &GitUpdater{
@@ -44,7 +45,7 @@ func reloadTemplates() error {
 		if err != nil {
 			return err
 		}
-		if filepath.Ext(path) == templateExt {
+		if e := filepath.Ext(path); e == templateExt || e == templateIncl {
 			matches = append(matches, path)
 		}
 		return nil
