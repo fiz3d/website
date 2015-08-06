@@ -203,6 +203,8 @@ func checkForUpdates() {
 }
 
 func init() {
+	flag.Parse()
+
 	if err := reloadTemplates(); err != nil {
 		log.Fatal(err)
 	}
@@ -218,8 +220,6 @@ func init() {
 }
 
 func main() {
-	flag.Parse()
-
 	// Parse update rate flag.
 	var err error
 	updateRateT, err = time.ParseDuration(*updateRate)
