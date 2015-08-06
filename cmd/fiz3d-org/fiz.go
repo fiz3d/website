@@ -25,7 +25,7 @@ var (
 	staticDirPrefix = "/static/" // Path prefix to strip to get static dir root.
 	staticDir       = "static/"  // Directory to serve for static files.
 
-	errorTemplate = "error"      // Template to use for errors.
+	errorTemplate = "error.tmpl" // Template to use for errors.
 	templateExt   = ".tmpl"      // Filepath extension of template files.
 	templateIncl  = ".incl"      // Filepath extension of template includes.
 	templateDir   = "templates/" // Relative directory that templates reside in.
