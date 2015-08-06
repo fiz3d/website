@@ -26,14 +26,32 @@ var (
 	updateRateT time.Duration
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello world!")
+func handler(w http.ResponseWriter, r *http.Request) error {
+	return fmt.Fprintf(w, "Hello world!")
 }
 
 func logHandler(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%v %v\n", r.Method, r.URL)
 		h.ServeHTTP(w, r)
+	})
+}
+
+func errorHandler(h func(w http.ResponseWriter, r *http.Request) error) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := h(w, r)
+		if err == nil {
+			return
+		}
+
+		// Render the error template.
+		data := &TemplateData{
+			Request: r,
+			Error:   err.Error(),
+		}
+		if err := tmpls.ExecuteTemplate(w, errorTemplate, data); err != nil {
+			panic(err)
+		}
 	})
 }
 
@@ -82,7 +100,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", logHandler(http.FileServer(http.Dir("static/")))))
 
 	// App handler.
-	http.HandleFunc("/", logHandler(handler))
+	http.HandleFunc("/", logHandler(errorHandler(handler)))
 
 	// Start HTTPS server:
 	if *tlsAddr != "" {
