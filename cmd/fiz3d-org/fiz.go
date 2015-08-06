@@ -93,9 +93,8 @@ func handler(w http.ResponseWriter, r *http.Request) error {
 
 	// Determine template name.
 	tmplName := r.URL.Path[1:]
-	if stat, err := os.Stat(filepath.Join(templateDir, tmplName)); err != nil {
-		return err
-	} else {
+	tmplPath := filepath.Join(templateDir, tmplName)
+	if stat, err := os.Stat(tmplPath); err == nil {
 		if stat.IsDir() {
 			tmplName = path.Join(tmplName, "index")
 		}
