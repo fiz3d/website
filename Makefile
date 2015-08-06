@@ -1,5 +1,16 @@
-dev:
+.PHONY: dev clean deps provision unprovision
+
+dev: clean
+	cd static/js/ && watchify -t browserify-css site.js -o site.min.js &
 	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
+
+clean:
+	rm ./static/js/site.min.js
+
+deps:
+	npm install -g browserify
+	npm install -g watchify
+	npm install --save-dev browserify-css
 
 provision: unprovision
 	cp upstart.conf /etc/init/fiz3d-org.conf

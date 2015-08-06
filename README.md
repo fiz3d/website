@@ -8,14 +8,14 @@ Below is a list of software used (some of which you will need installed):
 
 - [Go](https://golang.org) is used to power the back-end.
 - [Bootstrap](https://getbootstrap.com) and [jQuery](https://jquery.com) power the front-end.
-- [Browserify](https://browserify.org) is used to package resources.
+- [Browserify](https://browserify.org) and [browserify-css](https://www.npmjs.com/package/browserify-css) are used to package resources, with [watchify](https://www.npmjs.com/package/watchify) for live development.
 - [Docker](https://www.docker.com) is used for quick and easy deployment.
 - [Travis CI](https://travis-ci.org) lets us auto-deploy any changes merged into this repository directly to the [live site](https://fiz3d.org).
 - [Rego](https://sourcegraph.com/github.com/sqs/rego) automatically rebuilds the Go source code as you make changes.
 
 ## Development
 
-- Install the dependencies listed above.
+- Install the dependencies listed above (or `sudo make deps`).
 - `cd path/to/this/repo`
 - `make`
 
