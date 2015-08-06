@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -101,8 +102,10 @@ func errorHandler(h func(w http.ResponseWriter, r *http.Request) error) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		err := h(w, r)
 		if err == nil {
+			log.Printf("%v %v\n", r.Method, r.URL)
 			return
 		}
+		log.Printf("[error] %v %v - %v\n", r.Method, r.URL, err)
 
 		// Render the error template.
 		data := &TemplateData{
@@ -164,7 +167,7 @@ func main() {
 	http.Handle("/static/", logHandler(http.StripPrefix(staticDirPrefix, http.FileServer(http.Dir(staticDir)))))
 
 	// App handler.
-	http.Handle("/", logHandler(errorHandler(handler)))
+	http.Handle("/", errorHandler(handler))
 
 	// Start HTTPS server:
 	if *tlsAddr != "" {
