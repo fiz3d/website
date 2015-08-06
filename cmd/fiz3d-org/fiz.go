@@ -52,12 +52,14 @@ func checkForUpdates() {
 }
 
 func init() {
-	go func() {
-		for {
-			time.Sleep(updateRateT)
-			checkForUpdates()
-		}
-	}()
+	if *update {
+		go func() {
+			for {
+				time.Sleep(updateRateT)
+				checkForUpdates()
+			}
+		}()
+	}
 }
 
 func main() {
