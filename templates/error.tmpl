@@ -1,0 +1,8 @@
+/error.tmpl
+{{with .Error}}
+    {{.}}
+{{end}}
+{{with .Stack}}
+    {{.}}
+{{end}}
+{{template "layout.incl"}}
