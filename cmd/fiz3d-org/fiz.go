@@ -75,7 +75,7 @@ func handler(w http.ResponseWriter, r *http.Request) error {
 		return err
 	} else {
 		if stat.IsDir() {
-			tmplName = "index"
+			tmplName = path.Join(tmplName, "index")
 		}
 	}
 
