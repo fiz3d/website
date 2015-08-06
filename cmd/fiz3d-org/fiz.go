@@ -58,7 +58,11 @@ func reloadTemplates() error {
 	tmpls = template.New("")
 	for _, m := range matches {
 		name := strings.TrimPrefix(m, templateDir)
-		if _, err := tmpls.New(name).Parse(m); err != nil {
+		data, err := ioutil.ReadFile(m)
+		if err != nil {
+			return err
+		}
+		if _, err := tmpls.New(name).Parse(string(data)); err != nil {
 			return err
 		}
 	}
