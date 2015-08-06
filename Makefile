@@ -5,7 +5,7 @@ dev: clean
 	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
 
 clean:
-	rm ./static/js/site.min.js
+	rm -f ./static/js/site.min.js
 
 deps:
 	npm install -g browserify
