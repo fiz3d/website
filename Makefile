@@ -1,5 +1,5 @@
 dev:
-	rego github.com/fiz3d/website/cmd/fiz3d-org $(FLAGS)
+	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
 
 provision: unprovision
 	cp upstart.conf /etc/init/fiz3d-org.conf
