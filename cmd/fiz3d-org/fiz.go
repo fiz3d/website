@@ -21,6 +21,9 @@ var (
 	updateRate = flag.String("update-rate", "60s", "rate at which to check for updates via Git")
 	dev        = flag.Bool("dev", false, "reload all templates on each request")
 
+	staticDirPrefix = "/static/" // Path prefix to strip to get static dir root.
+	staticDir       = "static/"  // Directory to serve for static files.
+
 	errorTemplate = "error"      // Template to use for errors.
 	templateGlob  = "**/*.tmpl"  // Glob to match all template files.
 	templateDir   = "templates/" // Relative directory that templates reside in.
@@ -158,7 +161,7 @@ func main() {
 	}
 
 	// Static file hosting
-	http.Handle("/static/", logHandler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/")))))
+	http.Handle("/static/", logHandler(http.StripPrefix(staticDirPrefix, http.FileServer(http.Dir(staticDir)))))
 
 	// App handler.
 	http.Handle("/", logHandler(errorHandler(handler)))
