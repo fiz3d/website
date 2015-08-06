@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -17,17 +19,72 @@ var (
 	keyFile    = flag.String("key-file", "", "HTTPS / SSL certificate .key file")
 	update     = flag.Bool("update", true, "update via Git and shutdown server after pull")
 	updateRate = flag.String("update-rate", "60s", "rate at which to check for updates via Git")
+	dev        = flag.Bool("dev", false, "reload all templates on each request")
+
+	errorTemplate = "error"      // Template to use for errors.
+	templateGlob  = "**/*.tmpl"  // Glob to match all template files.
+	templateDir   = "templates/" // Relative directory that templates reside in.
 
 	src = &GitUpdater{
 		Dir: ".",
 	}
-	tmpls       = template.Must(template.ParseGlob("templates/*"))
 	lastUpdate  = time.Now()
+	tmpls       *template.Template
 	updateRateT time.Duration
 )
 
+func reloadTemplates() error {
+	matches, err := filepath.Glob(templateGlob)
+	if err != nil {
+		return err
+	}
+	tmpls = template.New("")
+	for _, m := range matches {
+		name := strings.TrimPrefix(m, templateDir)
+		name = strings.TrimSuffix(name, filepath.Ext(name))
+		if _, err := tmpls.New(name).Parse(m); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+type TemplateData struct {
+	Request *http.Request
+	Error   string
+}
+
 func handler(w http.ResponseWriter, r *http.Request) error {
-	return fmt.Fprintf(w, "Hello world!")
+	if *dev {
+		if err := reloadTemplates(); err != nil {
+			return err
+		}
+	}
+
+	var data = &TemplateData{
+		Request: r,
+	}
+
+	// Determine template name.
+	tmplName := r.URL.Path[1:]
+	if stat, err := os.Stat(filepath.Join(templateDir, tmplName)); err != nil {
+		return err
+	} else {
+		if stat.IsDir() {
+			tmplName = "index"
+		}
+	}
+
+	// Find the requested page.
+	root := tmpls.Lookup(tmplName)
+	if root == nil {
+		// Couldn't find the page, render the error page.
+		w.WriteHeader(http.StatusNotFound)
+		return fmt.Errorf("%v - %v", http.StatusNotFound, http.StatusText(http.StatusNotFound))
+	}
+
+	// Execute the requested template page.
+	return root.Execute(w, data)
 }
 
 func logHandler(h http.Handler) http.Handler {
@@ -76,6 +133,10 @@ func checkForUpdates() {
 }
 
 func init() {
+	if err := reloadTemplates(); err != nil {
+		log.Fatal(err)
+	}
+
 	if *update {
 		go func() {
 			for {
@@ -97,10 +158,10 @@ func main() {
 	}
 
 	// Static file hosting
-	http.Handle("/static/", http.StripPrefix("/static/", logHandler(http.FileServer(http.Dir("static/")))))
+	http.Handle("/static/", logHandler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/")))))
 
 	// App handler.
-	http.HandleFunc("/", logHandler(errorHandler(handler)))
+	http.Handle("/", logHandler(errorHandler(handler)))
 
 	// Start HTTPS server:
 	if *tlsAddr != "" {
