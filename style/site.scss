@@ -6,7 +6,6 @@ body {
 	/* Margin bottom by footer height */
 	margin-bottom: 60px;
 	background-color: black;
-	display: none;
 }
 .footer {
 	position: absolute;
@@ -31,4 +30,8 @@ body {
 }
 .navbar-brand img {
 	height: 40px;
+}
+
+#page {
+	display: none;
 }
