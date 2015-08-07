@@ -1,3 +1,4 @@
 static/*.css
 static/*.js
 static/*.js.map
+node_modules/.bin
