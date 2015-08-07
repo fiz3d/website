@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install git make npm
+sudo apt-get install git make
 
 # Save current working directory.
 pwd=$(pwd)
