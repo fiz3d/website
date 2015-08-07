@@ -1,7 +1,7 @@
 .PHONY: dev clean deps provision unprovision
 
 dev: clean
-	cd static/js/ && watchify -t browserify-css site.js -o site.min.js &
+	gulp watch &
 	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
 
 clean:
