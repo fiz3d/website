@@ -1,0 +1,22 @@
+</div>
+
+<footer class="footer">
+	<div class="container">
+		<p class="text-muted text-center">
+			© 2015 The Fiz Authors
+			<a href="/"><img src="/static/media/icon_small_transparent_128x128.png"></img></a>
+			All Rights Reserved.
+		</p>
+	</div>
+</footer>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- site -->
+<script src="/static/site.min.js"></script>
+</body>
+</html>
