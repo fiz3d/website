@@ -12,7 +12,6 @@ clean:
 	rm -f ./static/js/site.min.js
 
 deps:
-	apt-get install npm
 	npm install -g gulp
 	npm install -g browserify
 	npm install -g watchify

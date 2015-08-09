@@ -1,6 +1,10 @@
 language: go
 go:
 - tip
+addons:
+  apt:
+    packages:
+    - npm
 install: make travis
 notifications:
   slack:
