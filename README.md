@@ -49,6 +49,10 @@ Failed to start fiz3d-org.service: Unit fiz3d-org.service failed to load: No suc
 
 Your system probably uses systemd (e.g. Ubuntu 15.04 does) and not upstart (we currently only have an upstart script available).
 
+## Issues
+
+Please file all issues on the primary [fiz repository](https://github.com/fiz3d/fiz): [create a new issue](https://github.com/fiz3d/fiz/issues/new).
+
 ## License
 
 #### General
