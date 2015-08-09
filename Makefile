@@ -1,4 +1,4 @@
-.PHONY: dev clean deps provision unprovision
+.PHONY: dev travis clean deps provision unprovision
 
 dev: clean
 	gulp watch &
