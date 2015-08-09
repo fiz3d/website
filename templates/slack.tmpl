@@ -1,0 +1,33 @@
+{{template "top.incl"}}
+
+{{$slackin := "https://fiz3d-slackin.herokuapp.com/"}}
+
+<style>
+#page .iframe {
+	position: absolute;
+	top: -190px;
+	left: -72px;
+	width: 1280px;
+	height: 1200px;
+}
+#page .wrap {
+	height: 250px;
+	overflow: hidden;
+	position: relative;
+	margin: auto;
+	margin-top: 15%;
+}
+</style>
+
+<h1>Join the discussion!</h1>
+<div class="wrap">
+	<iframe class="iframe" src="{{$slackin}}">
+		<p>Your browser does not support iframes. <a href="{{$slackin}}">Click here</a> instead.</p>
+	</iframe>
+</div>
+
+<div class="text-center">
+	<small class="text-muted">powered by <a href="http://rauchg.com/slackin">slackin</a></small>
+</div>
+
+{{template "bottom.incl"}}
