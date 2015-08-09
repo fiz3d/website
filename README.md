@@ -1,4 +1,4 @@
-# The fiz3d.org website
+# [![Fiz3D](http://fiz3d.org/static/media/logo_nopad_101x48.png)](https://fiz3d.org) [Website](https://fiz3d.org/) [![Build Status](https://travis-ci.org/fiz3d/website.svg?branch=master)](https://travis-ci.org/fiz3d/website)
 
 This repository holds everything that runs on the [fiz3d.org](https://fiz3d.org) website.
 
