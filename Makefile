@@ -4,7 +4,7 @@ dev: clean
 	gulp watch &
 	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
 
-travis:
+travis: deps
 	gulp
 	go install github.com/fiz3d/website/cmd/fiz3d-org
 
@@ -12,6 +12,8 @@ clean:
 	rm -f ./static/js/site.min.js
 
 deps:
+	sudo apt-get install npm
+	npm install -g gulp
 	npm install -g browserify
 	npm install -g watchify
 
