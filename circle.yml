@@ -12,6 +12,7 @@ dependencies:
 
   override:
     - npm install -g gulp browserify watchify
+    - npm rebuild node-sass # Needed due to differing node versions
 
   cache_directories:
     - ../go
