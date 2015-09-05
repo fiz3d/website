@@ -1,11 +1,17 @@
 machine:
   node:
     version: 0.12.17
+  environment:
+    GOROOT: ~/go
+    PATH: ~/go/bin:$PATH
 
 dependencies:
   pre:
     # Install Go 1.5
-    - cd /usr/local && sudo rm -rf go && curl https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz | sudo tar -xz -C ~/go
+    - if [ ! -d ~/go ]; then curl https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz | sudo tar -xz -C ~; fi
+
+  cache_directories:
+    - ~/go
 
 test:
   override:
