@@ -11,7 +11,7 @@ dependencies:
     - if [ ! -d $HOME/go ]; then curl https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz | sudo tar -xz -C $HOME; fi
 
   cache_directories:
-    - $HOME/go
+    - ../go
 
 test:
   override:
