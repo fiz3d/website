@@ -8,8 +8,9 @@ machine:
 
 checkout:
   post:
+    - sudo chmod -R a+rwx $HOME/.go_workspace/
     - mkdir -p $REPO
-    - cp -r $PWD $REPO
+    - cp -r $PWD $HOME/.go_workspace/src/github.com/fiz3d
 
 dependencies:
   pre:
