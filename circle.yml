@@ -8,8 +8,8 @@ machine:
 
 checkout:
   post:
-    mkdir -p $REPO
-    cp -r . $REPO
+    - mkdir -p $REPO
+    - cp -r . $REPO
 
 dependencies:
   pre:
