@@ -1,0 +1,12 @@
+machine:
+  node:
+    version: 0.12.17
+
+dependencies:
+  pre:
+    # Install Go 1.5
+    - cd /usr/local && sudo rm -rf go && curl https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz -C ~/go | sudo tar -xz
+
+test:
+  override:
+    - go test -v -race ./...
