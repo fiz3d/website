@@ -9,7 +9,7 @@ machine:
 checkout:
   post:
     - mkdir -p $REPO
-    - cp -r . $REPO
+    - cp -r $PWD $REPO
 
 dependencies:
   pre:
