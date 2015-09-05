@@ -4,7 +4,7 @@ machine:
   environment:
     GOROOT: $HOME/go
     PATH: $HOME/go/bin:$PATH
-    REPO: $HOME/.go_workspace/src/github.com/fiz3d/website
+    REPO: ../.go_workspace/src/github.com/fiz3d/website
 
 checkout:
   post:
