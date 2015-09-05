@@ -4,6 +4,12 @@ machine:
   environment:
     GOROOT: $HOME/go
     PATH: $HOME/go/bin:$PATH
+    REPO: $HOME/.go_workspace/src/github.com/fiz3d/website
+
+checkout:
+  post:
+    mkdir -p $REPO
+    cp -r . $REPO
 
 dependencies:
   pre:
@@ -20,6 +26,10 @@ dependencies:
 test:
   override:
     - go test -v -race ./...
+      - pwd $REPO
     - gulp
+      - pwd $REPO
     - go install ./...
+      - pwd $REPO
     - timeout 5s fiz3d-org; if [ $$? -eq 124 ]; then exit 0; fi
+      - pwd $REPO
