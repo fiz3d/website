@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 0.12.17
+    version: 0.12.0
   environment:
     GOROOT: $HOME/go
     PATH: $HOME/go/bin:$PATH
