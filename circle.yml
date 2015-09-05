@@ -26,10 +26,10 @@ dependencies:
 test:
   override:
     - go test -v -race ./...
-      - pwd $REPO
+      pwd: $REPO
     - gulp
-      - pwd $REPO
+      pwd: $REPO
     - go install ./...
-      - pwd $REPO
+      pwd: $REPO
     - timeout 5s fiz3d-org; if [ $$? -eq 124 ]; then exit 0; fi
-      - pwd $REPO
+      pwd: $REPO
