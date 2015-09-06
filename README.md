@@ -1,4 +1,4 @@
-# [![Fiz3D](http://fiz3d.org/static/media/readme_small.png)](https://fiz3d.org) [Website](https://fiz3d.org/) [![Build Status](![Build Status](https://circleci.com/gh/fiz3d/website.svg?&style=shield))](https://circleci.com/gh/fiz3d/website)
+# [![Fiz3D](http://fiz3d.org/static/media/readme_small.png)](https://fiz3d.org) [Website](https://fiz3d.org/) [![Build Status](https://circleci.com/gh/fiz3d/website.svg?&style=shield)](https://circleci.com/gh/fiz3d/website)
 
 This repository holds everything that runs on the [fiz3d.org](https://fiz3d.org) website.
 
