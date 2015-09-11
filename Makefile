@@ -1,13 +1,8 @@
-.PHONY: dev travis clean deps provision unprovision
+.PHONY: dev clean deps provision unprovision
 
 dev: clean
 	gulp watch &
 	rego github.com/fiz3d/website/cmd/fiz3d-org -dev -update=false $(FLAGS)
-
-travis: deps
-	gulp
-	go install github.com/fiz3d/website/cmd/fiz3d-org
-	timeout 5s fiz3d-org; if [ $$? -eq 124 ]; then exit 0; fi
 
 clean:
 	rm -f ./static/js/site.min.js
